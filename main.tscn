@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://bueqg5xs4wml5"]
+
+[ext_resource type="PackedScene" uid="uid://baruh0tpbq4es" path="res://Player/player.tscn" id="1_84dh0"]
+[ext_resource type="Script" path="res://SceneManager.gd" id="1_a0xl4"]
+[ext_resource type="Texture2D" uid="uid://ckjhvdhhpjljd" path="res://Dilitirios-Forest-Lair-Day-Tile.jpg" id="3_qn20s"]
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("enemyTimer", "enemySpawner")]
+script = ExtResource("1_a0xl4")
+PlayerScene = ExtResource("1_84dh0")
+enemyTimer = NodePath("Timer")
+enemySpawner = NodePath("EnemySpawner")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(108, 106)
+texture = ExtResource("3_qn20s")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="0" type="Node2D" parent="Node2D" groups=["PlayerSpawnPoint"]]
+
+[node name="1" type="Node2D" parent="Node2D" groups=["PlayerSpawnPoint"]]
+position = Vector2(200, 0)
+
+[node name="2" type="Node2D" parent="Node2D" groups=["PlayerSpawnPoint"]]
+position = Vector2(0, 200)
+
+[node name="3" type="Node2D" parent="Node2D" groups=["PlayerSpawnPoint"]]
+position = Vector2(200, 200)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="Enemies" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="EnemySpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Enemy/Flying eye/flyingEye.tscn")
+spawn_path = NodePath("../Enemies")
+spawn_limit = 10
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
