@@ -1,0 +1,122 @@
+[gd_scene load_steps=14 format=3 uid="uid://buhioinr7al7t"]
+
+[ext_resource type="Script" path="res://Player/VFX/Slash.gd" id="1_6808u"]
+[ext_resource type="Texture2D" uid="uid://cfajko26abpb7" path="res://Player/VFX/sword_slash2.png" id="2_hivhw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_px67w"]
+atlas = ExtResource("2_hivhw")
+region = Rect2(0, 0, 119, 119)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ax0m"]
+atlas = ExtResource("2_hivhw")
+region = Rect2(119, 0, 119, 119)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7yce"]
+atlas = ExtResource("2_hivhw")
+region = Rect2(238, 0, 119, 119)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84vjh"]
+atlas = ExtResource("2_hivhw")
+region = Rect2(357, 0, 119, 119)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbijr"]
+atlas = ExtResource("2_hivhw")
+region = Rect2(476, 0, 119, 119)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58r7b"]
+atlas = ExtResource("2_hivhw")
+region = Rect2(595, 0, 119, 119)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n7hwc"]
+atlas = ExtResource("2_hivhw")
+region = Rect2(714, 0, 119, 119)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wd5c"]
+atlas = ExtResource("2_hivhw")
+region = Rect2(833, 0, 119, 119)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkah5"]
+atlas = ExtResource("2_hivhw")
+region = Rect2(952, 0, 119, 119)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8g6tq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_px67w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ax0m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7yce")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84vjh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mbijr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_58r7b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n7hwc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7wd5c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mkah5")
+}],
+"loop": false,
+"name": &"slash",
+"speed": 12.0
+}]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d3x58"]
+properties/0/path = NodePath(".:visible")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("AttackSprite:animation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("AttackSprite:frame")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("CollisionPolygon2D:disabled")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:rotation")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("../StateMachinePlayer:faceDir")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+
+[node name="Melee_attack" type="Area2D" node_paths=PackedStringArray("faceDir")]
+visible = false
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("1_6808u")
+faceDir = NodePath("")
+
+[node name="AttackSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -65)
+rotation = -1.5708
+sprite_frames = SubResource("SpriteFrames_8g6tq")
+animation = &"slash"
+frame = 4
+frame_progress = 0.913811
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(0, -65)
+rotation = -1.5708
+polygon = PackedVector2Array(-56, -37, -31, -54, 0, -56, 32, -47, 46, -32, 55, -15, 57, 0, 53, 19, 41, 38, 20, 51, -9, 56, -35, 51, -55, 37, -29, 41, 2, 32, 20, 8, 15, -20, -9, -38)
+disabled = true
+
+[node name="AttackSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_d3x58")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="animation_finished" from="AttackSprite" to="." method="_on_animated_sprite_2d_animation_finished"]

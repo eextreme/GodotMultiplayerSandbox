@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://rwblgxdhl0oq"]
+
+[ext_resource type="Script" path="res://Enemy/Components/enemyHealth.gd" id="1_r4cob"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64f4i"]
+bg_color = Color(0.396078, 0.0313726, 0.0666667, 1)
+
+[node name="EnemyHealthBar" type="ProgressBar"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -17.5
+offset_top = -32.0
+offset_right = 18.5
+offset_bottom = -23.0
+grow_horizontal = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_64f4i")
+value = 100.0
+show_percentage = false
+script = ExtResource("1_r4cob")
+
+[node name="hitTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="hitTimer" to="." method="_on_hit_timer_timeout"]
