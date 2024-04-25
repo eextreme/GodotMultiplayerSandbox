@@ -1,6 +1,6 @@
 extends Control
 
-@export var Address = "192.168.5.256" #Your local machine IP address or 0.0.0.0 if using a server
+@export var Address = "192.168.1.72"
 @export var port = 8910
 var peer
 # Called when the node enters the scene tree for the first time.

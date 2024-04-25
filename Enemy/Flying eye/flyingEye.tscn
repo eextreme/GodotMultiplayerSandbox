@@ -1,7 +1,60 @@
-[gd_scene load_steps=8 format=3 uid="uid://bcv8qwh4dntia"]
+[gd_scene load_steps=10 format=3 uid="uid://bcv8qwh4dntia"]
 
 [ext_resource type="Script" path="res://flyingEye.gd" id="1_ajeiq"]
 [ext_resource type="Texture2D" uid="uid://bumi81wd8ptpd" path="res://Enemy/Flying eye/Flight.png" id="2_re2ca"]
+[ext_resource type="PackedScene" uid="uid://rwblgxdhl0oq" path="res://Enemy/Components/enemy_health_bar.tscn" id="3_h2eia"]
+[ext_resource type="PackedScene" uid="uid://60eycn2hh1ti" path="res://Enemy/Components/ai_target_lowest_health.tscn" id="4_65emq"]
+
+[sub_resource type="Animation" id="Animation_qb3y1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_re2ca")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_2y6rf"]
 resource_name = "move"
@@ -56,57 +109,6 @@ tracks/3/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
 
-[sub_resource type="Animation" id="Animation_qb3y1"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:hframes")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [8]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:texture")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("2_re2ca")]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:vframes")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iy7q2"]
 _data = {
 "RESET": SubResource("Animation_qb3y1"),
@@ -123,17 +125,23 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath("Sprite2D:frame")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath(".:dead")
+properties/2/path = NodePath(".:targetPosition")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath("Sprite2D:self_modulate")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("EnemyHealthBar:value")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
-[node name="enemy" type="Area2D" node_paths=PackedStringArray("animation", "rageTimer") groups=["enemy"]]
+[node name="enemy" type="Area2D" node_paths=PackedStringArray("animation", "health") groups=["enemy"]]
 scale = Vector2(2, 2)
-collision_layer = 8
-collision_mask = 16
+collision_layer = 24
+collision_mask = 6
 script = ExtResource("1_ajeiq")
 animation = NodePath("AnimationPlayer")
-rageTimer = NodePath("Timer")
+health = NodePath("EnemyHealthBar")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_re2ca")
@@ -148,13 +156,19 @@ libraries = {
 position = Vector2(2.5, 0)
 shape = SubResource("CircleShape2D_iqi8c")
 
+[node name="EnemyHealthBar" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("3_h2eia")]
+sprite = NodePath("../Sprite2D")
+hitRecovery = 1
+health = 100
+
+[node name="AI_Target_Lowest_Health" parent="." node_paths=PackedStringArray("enemy", "health") instance=ExtResource("4_65emq")]
+enemy = NodePath("..")
+health = NodePath("../EnemyHealthBar")
+retargetDelay = 1.0
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_u6tpm")
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
-autostart = true
-
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="dead" from="EnemyHealthBar" to="." method="_on_enemy_health_bar_dead"]
+[connection signal="recovered" from="EnemyHealthBar" to="." method="_on_enemy_health_bar_recovered"]

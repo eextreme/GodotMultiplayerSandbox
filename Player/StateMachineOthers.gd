@@ -1,31 +1,59 @@
 extends SimpleStateMachine
-@export var playback : AnimationNodeStateMachinePlayback
-
-#Run when state machine loads. Create state with add_state(<state>)
+var playback : AnimationNodeStateMachinePlayback
+#
 func _ready():
 	playback = animation_tree.get("parameters/playback")
+	add_state("idle")
 	add_state("run")
 	add_state("cast")
-	add_state("idle")
 	add_state("attack")
 	call_deferred("set_state",states.idle)
 	pass
 
-#Always running 
+var direction
+var aimLocation : Vector2
+@export var faceDir : Vector2
+
 func _state_logic(delta):
-	#character.global_position = character.global_position.lerp(character.syncPos,0.5)
-	#character.animated_sprite.frame = lerp(character.animated_sprite.frame, character.syncFrame,0.5)
 	pass
-
-#Always running in specific states
-func _get_transitions(delta):
-	pass
-
-#Runs when entering the state
-func _enter_state(new_state, old_state):
 	
+func create_melee_attack():
 	pass
 
-#Runs when leaving the state
+func create_ranged_attack():
+	pass
+
+func _get_transitions(delta):
+	match state:
+		states.idle:
+			pass
+		
+		states.run:
+			pass
+		
+		states.cast:
+			pass
+		
+		states.attack:
+			pass	
+
+func _enter_state(new_state, old_state):
+	match new_state:
+		states.run:
+			playback.travel("Run")
+		states.idle:
+			playback.travel("Idle")
+		states.cast:
+			playback.travel("Cast")
+		states.attack:
+			$"../Melee_attack".visible = true
+			$"../Melee_attack/AttackSprite".play("slash")
+			$"../Melee_attack/CollisionPolygon2D".disabled = false
+			playback.travel("Attack")
+	pass
+
 func _exit_state(old_state,new_state):
+	match old_state:
+		states.run:
+			pass
 	pass

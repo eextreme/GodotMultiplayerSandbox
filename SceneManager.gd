@@ -22,8 +22,8 @@ func _ready():
 var rng = RandomNumberGenerator.new()
 
 func _physics_process(delta):
-	GameManager.targetLocation = players[0].global_position
-	enemyMonitor()
+	#GameManager.targetLocation = players[0].global_position
+	#enemyMonitor()
 	pass
 
 func enemyMonitor():

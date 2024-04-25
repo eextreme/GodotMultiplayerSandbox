@@ -1,4 +1,4 @@
-[gd_scene load_steps=538 format=3 uid="uid://baruh0tpbq4es"]
+[gd_scene load_steps=540 format=3 uid="uid://baruh0tpbq4es"]
 
 [ext_resource type="Script" path="res://Player/players.gd" id="1_hmx8r"]
 [ext_resource type="Texture2D" uid="uid://dtnmlyts6pnns" path="res://Player/Animations/Idle/Knight_Idle_dir8.png" id="2_2ikki"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://hs5epyxsnq3o" path="res://Player/Animations/Run/Knight_Run_dir8.png" id="2_tct23"]
 [ext_resource type="Script" path="res://Player/PlayerStateMachine.gd" id="2_vucp8"]
 [ext_resource type="Texture2D" uid="uid://dsxu87ixtmj1u" path="res://Player/Animations/Idle/Knight_Idle_dir1.png" id="3_5uuiw"]
-[ext_resource type="Script" path="res://Player/StateMachineOthers.gd" id="3_exnj7"]
 [ext_resource type="Texture2D" uid="uid://cmkmdtapbwc7o" path="res://Player/Animations/Cast/Knight_Cast_dir1.png" id="3_hoeh5"]
 [ext_resource type="Texture2D" uid="uid://c5dfs8n1byh8b" path="res://Player/Animations/Idle/Knight_Idle_dir2.png" id="3_us0or"]
 [ext_resource type="Texture2D" uid="uid://bje6hkn74twgu" path="res://Player/Animations/Run/Knight_Run_dir2.png" id="3_wj1cn"]
@@ -35,6 +34,7 @@
 [ext_resource type="Texture2D" uid="uid://dxp62xb4y4ckh" path="res://Player/Animations/Attack/Knight_Attack_dir5.png" id="11_5jp4e"]
 [ext_resource type="Texture2D" uid="uid://omm74hd80u6p" path="res://Player/Animations/Run/Knight_Run_dir3.png" id="12_k7ava"]
 [ext_resource type="Texture2D" uid="uid://cqtb0oohnwlhk" path="res://Player/Animations/Run/Knight_Run_dir5.png" id="13_dnaks"]
+[ext_resource type="Script" path="res://Player/PlayerActionSynchronizer.gd" id="35_ihwwk"]
 [ext_resource type="Script" path="res://Player/VFX/Slash.gd" id="36_mnvon"]
 [ext_resource type="Texture2D" uid="uid://dhkorcathsi25" path="res://Player/VFX/sword_slash2.png" id="37_hf4ct"]
 
@@ -3910,6 +3910,7 @@ animation = &"attack_left"
 animation = &"attack_up_left"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_r6xyn"]
+auto_triangles = false
 blend_point_0/node = SubResource("AnimationNodeAnimation_74t5s")
 blend_point_0/pos = Vector2(0, 1)
 blend_point_1/node = SubResource("AnimationNodeAnimation_urqfh")
@@ -3926,7 +3927,9 @@ blend_point_6/node = SubResource("AnimationNodeAnimation_wfwnx")
 blend_point_6/pos = Vector2(-1, 0)
 blend_point_7/node = SubResource("AnimationNodeAnimation_l1s21")
 blend_point_7/pos = Vector2(-1, 1)
+triangles = PackedInt32Array(0, 1, 2, 2, 3, 4, 4, 5, 6, 0, 6, 7)
 blend_mode = 1
+sync = true
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i5ic4"]
 animation = &"cast_up"
@@ -3953,6 +3956,7 @@ animation = &"cast_down_right"
 animation = &"cast_down_left"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_6i602"]
+auto_triangles = false
 blend_point_0/node = SubResource("AnimationNodeAnimation_i5ic4")
 blend_point_0/pos = Vector2(0, 1)
 blend_point_1/node = SubResource("AnimationNodeAnimation_cba8i")
@@ -3969,7 +3973,9 @@ blend_point_6/node = SubResource("AnimationNodeAnimation_oawde")
 blend_point_6/pos = Vector2(1, -1)
 blend_point_7/node = SubResource("AnimationNodeAnimation_xu3j5")
 blend_point_7/pos = Vector2(-1, -1)
+triangles = PackedInt32Array(0, 3, 4, 0, 1, 5, 1, 2, 6, 2, 3, 7)
 blend_mode = 1
+sync = true
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kmtnf"]
 animation = &"idle_up"
@@ -3996,6 +4002,7 @@ animation = &"idle_down_right"
 animation = &"idle_down_left"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_iqv1d"]
+auto_triangles = false
 blend_point_0/node = SubResource("AnimationNodeAnimation_kmtnf")
 blend_point_0/pos = Vector2(0, 1)
 blend_point_1/node = SubResource("AnimationNodeAnimation_qgm1i")
@@ -4012,7 +4019,9 @@ blend_point_6/node = SubResource("AnimationNodeAnimation_knqbk")
 blend_point_6/pos = Vector2(1, -1)
 blend_point_7/node = SubResource("AnimationNodeAnimation_d8l63")
 blend_point_7/pos = Vector2(-1, -1)
+triangles = PackedInt32Array(0, 3, 4, 0, 2, 5, 1, 2, 6, 1, 3, 7)
 blend_mode = 1
+sync = true
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j4x50"]
 animation = &"run_up"
@@ -4039,6 +4048,7 @@ animation = &"run_left"
 animation = &"run_up_left"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_aby87"]
+auto_triangles = false
 blend_point_0/node = SubResource("AnimationNodeAnimation_j4x50")
 blend_point_0/pos = Vector2(0, 1)
 blend_point_1/node = SubResource("AnimationNodeAnimation_dnijl")
@@ -4055,7 +4065,9 @@ blend_point_6/node = SubResource("AnimationNodeAnimation_8opj7")
 blend_point_6/pos = Vector2(-1, 0)
 blend_point_7/node = SubResource("AnimationNodeAnimation_8g7vs")
 blend_point_7/pos = Vector2(-1, 1)
+triangles = PackedInt32Array(0, 1, 2, 2, 3, 4, 4, 5, 6, 0, 6, 7)
 blend_mode = 1
+sync = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bnmbn"]
 advance_mode = 2
@@ -4113,43 +4125,31 @@ height = 66.0
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_i53i3"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
-properties/0/replication_mode = 2
-properties/1/path = NodePath("AnimationTree:parameters/Cast/blend_position")
+properties/0/replication_mode = 1
+properties/1/path = NodePath("StateMachinePlayer:current_state")
 properties/1/spawn = false
 properties/1/replication_mode = 1
-properties/2/path = NodePath("AnimationTree:parameters/Idle/blend_position")
-properties/2/spawn = false
+properties/2/path = NodePath("AnimatedSprite2D:frame")
+properties/2/spawn = true
 properties/2/replication_mode = 1
-properties/3/path = NodePath("AnimationTree:parameters/Run/blend_position")
-properties/3/spawn = false
+properties/3/path = NodePath("AnimatedSprite2D:animation")
+properties/3/spawn = true
 properties/3/replication_mode = 1
-properties/4/path = NodePath("AnimatedSprite2D:animation")
-properties/4/spawn = false
+properties/4/path = NodePath("StateMachinePlayer:direction")
+properties/4/spawn = true
 properties/4/replication_mode = 1
-properties/5/path = NodePath("AnimatedSprite2D:frame")
+properties/5/path = NodePath("AnimationTree:parameters/Attack/blend_position")
 properties/5/spawn = true
 properties/5/replication_mode = 1
-properties/6/path = NodePath("PanelContainer/VBoxContainer/HealthBar:value")
+properties/6/path = NodePath("AnimationTree:parameters/Cast/blend_position")
 properties/6/spawn = true
 properties/6/replication_mode = 1
-properties/7/path = NodePath("PanelContainer/VBoxContainer/ManaBar:value")
+properties/7/path = NodePath("AnimationTree:parameters/Idle/blend_position")
 properties/7/spawn = true
 properties/7/replication_mode = 1
-properties/8/path = NodePath("Area2D/AnimatedSprite2D:frame")
-properties/8/spawn = false
+properties/8/path = NodePath("AnimationTree:parameters/Run/blend_position")
+properties/8/spawn = true
 properties/8/replication_mode = 1
-properties/9/path = NodePath("Area2D/AnimatedSprite2D:animation")
-properties/9/spawn = false
-properties/9/replication_mode = 1
-properties/10/path = NodePath("Area2D/CollisionPolygon2D:disabled")
-properties/10/spawn = false
-properties/10/replication_mode = 2
-properties/11/path = NodePath("Area2D:visible")
-properties/11/spawn = false
-properties/11/replication_mode = 2
-properties/12/path = NodePath("StateMachinePlayer:faceDir")
-properties/12/spawn = true
-properties/12/replication_mode = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ilwk"]
 bg_color = Color(1, 1, 1, 1)
@@ -4162,6 +4162,14 @@ bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v42uf"]
 bg_color = Color(0.00784314, 0.294118, 1, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ahb0l"]
+properties/0/path = NodePath("VBoxContainer/HealthBar:value")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("VBoxContainer/ManaBar:value")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_px67w"]
 atlas = ExtResource("37_hf4ct")
@@ -4234,13 +4242,33 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d3x58"]
+properties/0/path = NodePath(".:visible")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("AttackSprite:animation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("AttackSprite:frame")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("CollisionPolygon2D:disabled")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:rotation")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("../StateMachinePlayer:faceDir")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+
 [node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("animated_sprite", "healthBar", "manaBar") groups=["player"]]
 collision_layer = 2
 collision_mask = 24
 script = ExtResource("1_hmx8r")
 animated_sprite = NodePath("AnimatedSprite2D")
-healthBar = NodePath("PanelContainer/VBoxContainer/HealthBar")
-manaBar = NodePath("PanelContainer/VBoxContainer/ManaBar")
+healthBar = NodePath("PlayerStatusIndicator/VBoxContainer/HealthBar")
+manaBar = NodePath("PlayerStatusIndicator/VBoxContainer/ManaBar")
 
 [node name="StateMachinePlayer" type="Node" parent="." node_paths=PackedStringArray("character", "camera", "animation_player", "animation_tree")]
 script = ExtResource("2_vucp8")
@@ -4249,18 +4277,10 @@ camera = NodePath("../Camera2D")
 animation_player = NodePath("../AnimationPlayer")
 animation_tree = NodePath("../AnimationTree")
 
-[node name="StateMachineOthers" type="Node" parent="." node_paths=PackedStringArray("character", "camera", "animation_player", "animation_tree")]
-process_mode = 4
-script = ExtResource("3_exnj7")
-character = NodePath("..")
-camera = NodePath("../Camera2D")
-animation_player = NodePath("../AnimationPlayer")
-animation_tree = NodePath("../AnimationTree")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_huet0")
 animation = &"idle_up"
-frame = 5
+frame = 16
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 libraries = {
@@ -4270,7 +4290,7 @@ tree_root = SubResource("AnimationNodeStateMachine_h1mtn")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Attack/blend_position = Vector2(0, 0)
 parameters/Cast/blend_position = Vector2(0, 0)
-parameters/Idle/blend_position = Vector2(0, 0)
+parameters/Idle/blend_position = Vector2(-0.00271988, 0.100529)
 parameters/Run/blend_position = Vector2(-0.6912, 0.339207)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -4278,16 +4298,19 @@ position = Vector2(0, -26)
 shape = SubResource("CapsuleShape2D_ftob6")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+active = false
 libraries = {
 "": SubResource("AnimationLibrary_fhue3")
 }
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="PlayerActionSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_i53i3")
+visibility_update_mode = 1
+script = ExtResource("35_ihwwk")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PlayerStatusIndicator" type="PanelContainer" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -4297,13 +4320,13 @@ offset_right = 37.5
 offset_bottom = -65.0
 grow_horizontal = 2
 
-[node name="VBoxContainer" type="NinePatchRect" parent="PanelContainer"]
+[node name="VBoxContainer" type="NinePatchRect" parent="PlayerStatusIndicator"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HealthBar" type="ProgressBar" parent="PanelContainer/VBoxContainer"]
+[node name="HealthBar" type="ProgressBar" parent="PlayerStatusIndicator/VBoxContainer"]
 custom_minimum_size = Vector2(75, 5)
 layout_mode = 1
 anchors_preset = 5
@@ -4319,7 +4342,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_ct8o0")
 value = 100.0
 show_percentage = false
 
-[node name="ManaBar" type="ProgressBar" parent="PanelContainer/VBoxContainer"]
+[node name="ManaBar" type="ProgressBar" parent="PlayerStatusIndicator/VBoxContainer"]
 custom_minimum_size = Vector2(75, 5)
 layout_mode = 1
 anchors_preset = 5
@@ -4336,14 +4359,17 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_v42uf")
 value = 100.0
 show_percentage = false
 
-[node name="Area2D" type="Area2D" parent="." node_paths=PackedStringArray("faceDir")]
+[node name="StatusSynchronizer" type="MultiplayerSynchronizer" parent="PlayerStatusIndicator"]
+replication_config = SubResource("SceneReplicationConfig_ahb0l")
+
+[node name="Melee_attack" type="Area2D" parent="." node_paths=PackedStringArray("faceDir")]
 visible = false
 collision_layer = 4
 collision_mask = 8
 script = ExtResource("36_mnvon")
 faceDir = NodePath("../StateMachinePlayer")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
+[node name="AttackSprite" type="AnimatedSprite2D" parent="Melee_attack"]
 position = Vector2(0, -65)
 rotation = -1.5708
 sprite_frames = SubResource("SpriteFrames_8g6tq")
@@ -4351,11 +4377,14 @@ animation = &"slash"
 frame = 4
 frame_progress = 0.913811
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Melee_attack"]
 position = Vector2(0, -65)
 rotation = -1.5708
 polygon = PackedVector2Array(-56, -37, -31, -54, 0, -56, 32, -47, 46, -32, 55, -15, 57, 0, 53, 19, 41, 38, 20, 51, -9, 56, -35, 51, -55, 37, -29, 41, 2, 32, 20, 8, 15, -20, -9, -38)
 disabled = true
 
-[connection signal="area_entered" from="Area2D" to="Area2D" method="_on_area_entered"]
-[connection signal="animation_finished" from="Area2D/AnimatedSprite2D" to="Area2D" method="_on_animated_sprite_2d_animation_finished"]
+[node name="AttackSynchronizer" type="MultiplayerSynchronizer" parent="Melee_attack"]
+replication_config = SubResource("SceneReplicationConfig_d3x58")
+
+[connection signal="area_entered" from="Melee_attack" to="Melee_attack" method="_on_area_entered"]
+[connection signal="animation_finished" from="Melee_attack/AttackSprite" to="Melee_attack" method="_on_animated_sprite_2d_animation_finished"]

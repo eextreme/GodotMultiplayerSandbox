@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 var name_id
 const SPEED = 300.0
@@ -8,20 +9,16 @@ var controller : bool
 @export var manaBar : ProgressBar
 
 func _ready():
-	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
-	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
+	$PlayerActionSynchronizer.set_multiplayer_authority(str(name).to_int())
+	$PlayerStatusIndicator/StatusSynchronizer.set_multiplayer_authority(str(name).to_int())
+	$Melee_attack/AttackSynchronizer.set_multiplayer_authority(str(name).to_int())
+	
+	if $PlayerActionSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
 		$Camera2D.enabled = true
 	else:
 		$Camera2D.enabled = false
 	
-	controller = $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id()
-	
-	if controller:
-		$StateMachinePlayer.process_mode = Node.PROCESS_MODE_INHERIT
-		$StateMachineOthers.process_mode = Node.PROCESS_MODE_DISABLED
-	else:
-		$StateMachinePlayer.process_mode = Node.PROCESS_MODE_DISABLED
-		$StateMachineOthers.process_mode = Node.PROCESS_MODE_INHERIT
+	controller = $PlayerActionSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id()
 
 @export var syncPos : Vector2
 @export var syncFrame : int

@@ -10,11 +10,16 @@ func _ready():
 	call_deferred("set_state",states.idle)
 	pass
 
-var direction
+@export var direction : Vector2
 var aimLocation : Vector2
 @export var faceDir : Vector2
 
 func _state_logic(delta):
+	
+	if !character.controller:
+		var test = $"../AnimationTree" as AnimationTree
+		test.active = false
+		return
 	
 	aimLocation = character.get_global_mouse_position()
 	faceDir = (aimLocation-character.global_position).normalized()
@@ -43,9 +48,13 @@ func create_ranged_attack():
 	pass
 
 func _get_transitions(delta):
+	if !character.controller:
+		return
+	
 	match state:
 		states.idle:
-			animation_tree.set("parameters/Idle/blend_position",Vector2(faceDir.x,-faceDir.y))
+			if abs(faceDir.x)>0.25 and abs(faceDir.y)>0.25:
+				animation_tree.set("parameters/Idle/blend_position",Vector2(faceDir.x,-faceDir.y))
 			
 			if Input.is_action_just_pressed("attack"):
 				return states.attack
@@ -57,7 +66,8 @@ func _get_transitions(delta):
 				return states.run
 			
 		states.run:
-			animation_tree.set("parameters/Run/blend_position",Vector2(faceDir.x,-faceDir.y))
+			if abs(faceDir.x)>0.25 and abs(faceDir.y)>0.25:
+				animation_tree.set("parameters/Run/blend_position",Vector2(faceDir.x,-faceDir.y))
 			
 			if Input.is_action_just_pressed("attack"):
 				return states.attack
@@ -68,7 +78,8 @@ func _get_transitions(delta):
 				return states.idle
 		
 		states.cast:
-			animation_tree.set("parameters/Cast/blend_position",Vector2(faceDir.x,-faceDir.y))
+			if abs(faceDir.x)>0.25 and abs(faceDir.y)>0.25:
+				animation_tree.set("parameters/Cast/blend_position",Vector2(faceDir.x,-faceDir.y))
 			
 			if Input.is_action_just_pressed("attack"):
 				return states.attack
@@ -82,7 +93,8 @@ func _get_transitions(delta):
 				return states.run
 		
 		states.attack:
-			animation_tree.set("parameters/Attack/blend_position",Vector2(faceDir.x,-faceDir.y))
+			if abs(faceDir.x)>0.25 and abs(faceDir.y)>0.25:
+				animation_tree.set("parameters/Attack/blend_position",Vector2(faceDir.x,-faceDir.y))
 			
 			if Input.is_action_just_pressed("attack"):
 				return states.attack
@@ -96,6 +108,9 @@ func _get_transitions(delta):
 				return states.run
 
 func _enter_state(new_state, old_state):
+	if !character.controller:
+		return
+	
 	match new_state:
 		states.run:
 			playback.travel("Run")
@@ -104,13 +119,16 @@ func _enter_state(new_state, old_state):
 		states.cast:
 			playback.travel("Cast")
 		states.attack:
-			$"../Area2D".visible = true
-			$"../Area2D/AnimatedSprite2D".play("slash")
-			$"../Area2D/CollisionPolygon2D".disabled = false
+			$"../Melee_attack".visible = true
+			$"../Melee_attack/AttackSprite".play("slash")
+			$"../Melee_attack/CollisionPolygon2D".disabled = false
 			playback.travel("Attack")
 	pass
 
 func _exit_state(old_state,new_state):
+	if !character.controller:
+		return
+	
 	match old_state:
 		states.run:
 			pass
